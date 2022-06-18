@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -101,6 +102,7 @@ namespace Password_Manager
                 }
 
                 DECRYPTED = false;
+                grid.Enabled = false;
                 grid.ClearSelection();
                 UpdateFooter(!DECRYPTED);
                 return true;
@@ -132,6 +134,7 @@ namespace Password_Manager
             enterPwModal.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             enterPwModal.Dock = DockStyle.Bottom;
             enterPwModal.BringToFront();
+            grid.ClearSelection();
         }
 
         private void UpdateFooter(bool decrypted)
@@ -292,6 +295,32 @@ namespace Password_Manager
         private void grid_EnabledChanged(object sender, EventArgs e)
         {
             DECRYPTED = grid.Enabled;
+        }
+
+        private void grid_Paint(object sender, PaintEventArgs e)
+        {
+            if (!DECRYPTED)
+            {
+                base.OnPaint(e);
+                Graphics g;
+                g = e.Graphics;
+                grid.ForeColor = Color.FromArgb(80, 80, 80);
+                grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(80, 80, 80);
+                grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(80, 80, 80);
+                SolidBrush bg = new SolidBrush(Color.FromArgb(120, 0, 0, 0));
+                g.FillRectangle(bg, 0, 0, grid.Width, grid.Height);
+                g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                string text = "Passwords Encrypted";
+                Font font = new Font("Segoe UI", 25, FontStyle.Bold);
+                SizeF size = g.MeasureString(text, font);
+                g.DrawString(text, font, new SolidBrush(Color.FromArgb(100, 255, 255, 255)), (Width - size.Width) / 2, (Height - size.Height) / 3);
+            }
+            else
+            {
+                grid.ForeColor = Color.White;
+                grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.White;
+                grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(167, 167, 167);
+            }
         }
     }
 }

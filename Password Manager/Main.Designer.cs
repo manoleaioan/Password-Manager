@@ -107,6 +107,7 @@ namespace Password_Manager
             this.grid.TabIndex = 7;
             this.grid.EnabledChanged += new System.EventHandler(this.grid_EnabledChanged);
             this.grid.Click += new System.EventHandler(this.grid_Click);
+            this.grid.Paint += new System.Windows.Forms.PaintEventHandler(this.grid_Paint);
             // 
             // origin
             // 

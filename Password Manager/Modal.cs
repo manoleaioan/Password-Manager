@@ -14,7 +14,7 @@ namespace Password_Manager
     {
         private Action<string, Action, Action<string>> callback;
 
-        public Modal(Action<string, Action, Action<string>> _callback, string msg="")
+        public Modal(Action<string, Action, Action<string>> _callback, string msg = "")
         {
             callback = _callback;
             InitializeComponent();
@@ -57,6 +57,7 @@ namespace Password_Manager
         {
             wrongpw.Visible = false;
             callback(textBox1.Text, Hide, displayError);
+
         }
 
         private void panel1_Click(object sender, EventArgs e)
