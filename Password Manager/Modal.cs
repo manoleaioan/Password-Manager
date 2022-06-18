@@ -14,10 +14,11 @@ namespace Password_Manager
     {
         private Action<string, Action, Action<string>> callback;
 
-        public Modal(Action<string, Action, Action<string>> _callback)
+        public Modal(Action<string, Action, Action<string>> _callback, string msg="")
         {
             callback = _callback;
             InitializeComponent();
+            displayError(msg);
         }
 
         private void Modal_Load(object sender, EventArgs e)

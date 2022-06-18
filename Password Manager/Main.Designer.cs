@@ -125,6 +125,7 @@ namespace Password_Manager
             // 
             // changeSecretBtn
             // 
+            this.changeSecretBtn.AutoSize = true;
             this.changeSecretBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.changeSecretBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.changeSecretBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -132,7 +133,7 @@ namespace Password_Manager
             this.changeSecretBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.changeSecretBtn.Location = new System.Drawing.Point(180, 18);
             this.changeSecretBtn.Name = "changeSecretBtn";
-            this.changeSecretBtn.Size = new System.Drawing.Size(142, 30);
+            this.changeSecretBtn.Size = new System.Drawing.Size(147, 30);
             this.changeSecretBtn.TabIndex = 8;
             this.changeSecretBtn.Text = "Change secret key";
             this.changeSecretBtn.UseVisualStyleBackColor = true;
@@ -220,6 +221,7 @@ namespace Password_Manager
             this.Click += new System.EventHandler(this.Main_Click);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             this.footer.ResumeLayout(false);
+            this.footer.PerformLayout();
             this.ResumeLayout(false);
 
         }

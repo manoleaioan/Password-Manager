@@ -69,12 +69,22 @@ namespace Password_Manager
                 grid.Enabled = false;
                 DECRYPTED = false;
             }
+
             UpdateFooter(!DECRYPTED);
             grid.ClearSelection();
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                row.Height = grid.RowTemplate.Height;
+            }
         }
 
-        private void EncryptData()
+        private bool EncryptData()
         {
+            if (CheckIfNoSecret())
+            {
+                return false;
+            }
+
             try
             {
                 foreach (DataGridViewRow row in grid.Rows)
@@ -91,12 +101,17 @@ namespace Password_Manager
                 }
 
                 DECRYPTED = false;
+                grid.ClearSelection();
                 UpdateFooter(!DECRYPTED);
+                return true;
             }
-            catch { }
+            catch
+            {
+                return false;
+            }
         }
 
-        private void ChangeSecret()
+        private void ChangeSecret(string msg = "")
         {
             enterPwModal = new Modal(
                 (string pw, Action close, Action<string> displayError) =>
@@ -108,8 +123,9 @@ namespace Password_Manager
                     }
                     close();
                     secretKey = pw;
+                    changeSecretBtn.Text = "Change secret key " + pw.Substring(0, 1) + "***";
                     UpdateFooter(!DECRYPTED);
-                }
+                }, msg
             );
 
             Controls.Add(enterPwModal);
@@ -136,13 +152,17 @@ namespace Password_Manager
 
         private void encryptBtn_Click(object sender, EventArgs e)
         {
+            EncryptData();
+        }
+
+        private bool CheckIfNoSecret()
+        {
             if (secretKey == null)
             {
-                ChangeSecret();
-                MessageBox.Show("First you need to create a secret key");
-                return;
+                ChangeSecret("First you need to create a secret key");
+                return true;
             }
-            EncryptData();
+            return false;
         }
 
         private void decryptBtn_Click(object sender, EventArgs e)
@@ -172,12 +192,9 @@ namespace Password_Manager
                         DECRYPTED = true;
                         grid.Enabled = true;
                         secretKey = pw;
+                        changeSecretBtn.Text = "Change secret key " + pw.Substring(0, 1) + "***";
                         encryptBtn.Location = decryptBtn.Location;
                         UpdateFooter(!DECRYPTED);
-                        foreach (DataGridViewRow row in grid.Rows)
-                        {
-                            row.Height = grid.RowTemplate.Height;
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -204,7 +221,10 @@ namespace Password_Manager
             {
                 if (DECRYPTED)
                 {
-                    EncryptData();
+                    if (!EncryptData())
+                    {
+                        return;
+                    }
                 }
 
                 if (!System.IO.Directory.Exists(filePath))
@@ -237,10 +257,27 @@ namespace Password_Manager
                 }
 
                 writer.Close();
-                MessageBox.Show("Data saved sucessfully!");
+                grid.Enabled = grid.Rows.Count == 1;
+                UpdateFooter(grid.Rows.Count != 1);
+                saveBtn.Text = "Saved";
+                saveBtn.ForeColor = Color.SkyBlue;
+
+                Task.Delay(500).ContinueWith(t =>
+                {
+                    saveBtn.Invoke((MethodInvoker)delegate
+                    {
+                        saveBtn.Text = "Save";
+                        saveBtn.ForeColor = Color.White;
+                    });
+                });
+
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
+
 
         private void grid_Click(object sender, EventArgs e)
         {
@@ -254,7 +291,7 @@ namespace Password_Manager
 
         private void grid_EnabledChanged(object sender, EventArgs e)
         {
-            DECRYPTED = grid.Visible;
+            DECRYPTED = grid.Enabled;
         }
     }
 }
