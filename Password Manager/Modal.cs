@@ -46,11 +46,12 @@ namespace Password_Manager
         {
             wrongpw.Text = err;
             wrongpw.Visible = true;
-
         }
+
         private void cancel_Click(object sender, EventArgs e)
         {
             Hide();
+            Refresh();
         }
 
         public void submit_Click(object sender, EventArgs e)

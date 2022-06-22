@@ -41,15 +41,14 @@ namespace Password_Manager
             this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.changeSecretBtn = new System.Windows.Forms.Button();
             this.footer = new System.Windows.Forms.Panel();
-            this.decryptBtn = new System.Windows.Forms.Button();
-            this.encryptBtn = new System.Windows.Forms.Button();
-            this.saveBtn = new System.Windows.Forms.Button();
+            this.cryptBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.footer.SuspendLayout();
             this.SuspendLayout();
             // 
             // grid
             // 
+            this.grid.AllowDrop = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             this.grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
@@ -107,7 +106,11 @@ namespace Password_Manager
             this.grid.TabIndex = 7;
             this.grid.EnabledChanged += new System.EventHandler(this.grid_EnabledChanged);
             this.grid.Click += new System.EventHandler(this.grid_Click);
+            this.grid.DragDrop += new System.Windows.Forms.DragEventHandler(this.grid_DragDrop);
+            this.grid.DragOver += new System.Windows.Forms.DragEventHandler(this.grid_DragOver);
             this.grid.Paint += new System.Windows.Forms.PaintEventHandler(this.grid_Paint);
+            this.grid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.grid_MouseDown);
+            this.grid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.grid_MouseMove);
             // 
             // origin
             // 
@@ -126,84 +129,51 @@ namespace Password_Manager
             // 
             // changeSecretBtn
             // 
+            this.changeSecretBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.changeSecretBtn.AutoSize = true;
             this.changeSecretBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.changeSecretBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.changeSecretBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.changeSecretBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.changeSecretBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.changeSecretBtn.Location = new System.Drawing.Point(180, 18);
+            this.changeSecretBtn.Location = new System.Drawing.Point(378, 20);
             this.changeSecretBtn.Name = "changeSecretBtn";
-            this.changeSecretBtn.Size = new System.Drawing.Size(147, 30);
-            this.changeSecretBtn.TabIndex = 8;
-            this.changeSecretBtn.Text = "Change secret key";
+            this.changeSecretBtn.Size = new System.Drawing.Size(160, 30);
+            this.changeSecretBtn.TabIndex = 1;
+            this.changeSecretBtn.Text = "Change secret key a***";
             this.changeSecretBtn.UseVisualStyleBackColor = true;
             this.changeSecretBtn.Visible = false;
             this.changeSecretBtn.Click += new System.EventHandler(this.changeSecretBtn_Click);
             // 
             // footer
             // 
+            this.footer.AllowDrop = true;
             this.footer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.footer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.footer.Controls.Add(this.decryptBtn);
-            this.footer.Controls.Add(this.encryptBtn);
-            this.footer.Controls.Add(this.saveBtn);
+            this.footer.Controls.Add(this.cryptBtn);
             this.footer.Controls.Add(this.changeSecretBtn);
             this.footer.Location = new System.Drawing.Point(0, 395);
             this.footer.Name = "footer";
             this.footer.Size = new System.Drawing.Size(749, 66);
             this.footer.TabIndex = 9;
             // 
-            // decryptBtn
+            // cryptBtn
             // 
-            this.decryptBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.decryptBtn.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
-            this.decryptBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.decryptBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.decryptBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.decryptBtn.ForeColor = System.Drawing.Color.White;
-            this.decryptBtn.Location = new System.Drawing.Point(27, 18);
-            this.decryptBtn.Name = "decryptBtn";
-            this.decryptBtn.Size = new System.Drawing.Size(147, 30);
-            this.decryptBtn.TabIndex = 11;
-            this.decryptBtn.Text = "Decrypt passwords";
-            this.decryptBtn.UseVisualStyleBackColor = false;
-            this.decryptBtn.Click += new System.EventHandler(this.decryptBtn_Click);
-            // 
-            // encryptBtn
-            // 
-            this.encryptBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.encryptBtn.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
-            this.encryptBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.encryptBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.encryptBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.encryptBtn.ForeColor = System.Drawing.Color.White;
-            this.encryptBtn.Location = new System.Drawing.Point(12, 28);
-            this.encryptBtn.Name = "encryptBtn";
-            this.encryptBtn.Size = new System.Drawing.Size(147, 30);
-            this.encryptBtn.TabIndex = 10;
-            this.encryptBtn.Text = "Encrypt passwords";
-            this.encryptBtn.UseVisualStyleBackColor = false;
-            this.encryptBtn.Visible = false;
-            this.encryptBtn.Click += new System.EventHandler(this.encryptBtn_Click);
-            // 
-            // saveBtn
-            // 
-            this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.saveBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.saveBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            this.saveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveBtn.ForeColor = System.Drawing.Color.White;
-            this.saveBtn.Location = new System.Drawing.Point(651, 18);
-            this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(68, 30);
-            this.saveBtn.TabIndex = 9;
-            this.saveBtn.Text = "Save";
-            this.saveBtn.UseVisualStyleBackColor = false;
-            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
+            this.cryptBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cryptBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.cryptBtn.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
+            this.cryptBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            this.cryptBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cryptBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cryptBtn.ForeColor = System.Drawing.Color.White;
+            this.cryptBtn.Location = new System.Drawing.Point(225, 20);
+            this.cryptBtn.Name = "cryptBtn";
+            this.cryptBtn.Size = new System.Drawing.Size(147, 30);
+            this.cryptBtn.TabIndex = 1;
+            this.cryptBtn.Text = "Decrypt passwords";
+            this.cryptBtn.UseVisualStyleBackColor = false;
+            this.cryptBtn.Click += new System.EventHandler(this.cryptBtn_Click);
             // 
             // Main
             // 
@@ -220,6 +190,7 @@ namespace Password_Manager
             this.Text = "Password Mananger";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Click += new System.EventHandler(this.Main_Click);
+            this.Resize += new System.EventHandler(this.Main_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             this.footer.ResumeLayout(false);
             this.footer.PerformLayout();
@@ -232,9 +203,7 @@ namespace Password_Manager
         private System.Windows.Forms.DataGridView grid;
         private System.Windows.Forms.Button changeSecretBtn;
         private System.Windows.Forms.Panel footer;
-        private System.Windows.Forms.Button saveBtn;
-        private System.Windows.Forms.Button encryptBtn;
-        private System.Windows.Forms.Button decryptBtn;
+        private System.Windows.Forms.Button cryptBtn;
         private System.Windows.Forms.DataGridViewTextBoxColumn origin;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn password;
